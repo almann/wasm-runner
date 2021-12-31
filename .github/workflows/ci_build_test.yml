@@ -24,6 +24,7 @@ jobs:
           profile: minimal
           toolchain: stable
           override: true
+          target: wasm32-wasi
       - name: Setup Wasmer
         uses: wasmerio/setup-wasmer@v1
       - name: Cargo Install Local
