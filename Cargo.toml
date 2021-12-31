@@ -1,8 +1,22 @@
 [package]
 name = "wasm-runner"
-version = "0.1.0"
 authors = ["Almann Goo <almann.goo@gmail.com>"]
+description = "A simple wrapper for WASM Runtimes to use with Cargo"
+homepage = "https://github.com/almann/wasm-runner"
+repository = "https://github.com/almann/wasm-runner"
+license = "Apache-2.0"
+readme = "README.md"
+keywords = ["wasm", "cli", "webassembly"]
+categories = ["command-line-utilities", "development-tools"]
+exclude = [
+    "**/.git/**",
+    "**/.github/**",
+    "**/.travis.yml",
+    "**/.appveyor.yml",
+]
+
 edition = "2021"
+version = "0.1.0"
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 

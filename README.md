@@ -4,10 +4,10 @@
 [![License](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/almann/wasm-runner/blob/main/LICENSE)
 
 This is a simple wrapper program to run a WASM runtime (currently one of [`wasmer`] or [`wasmtime`]) as a runner for
-Cargo.  This is useful when wanting to use a target such as `wasm32-wasi` without the trappings of [`wasm-pack`]
-for example, just running `cargo run` or `cargo test` in a package for the `wasm32-wasi` target.  Cargo expects a
-runner to take the program executable followed by its arguments, and most WASM runtimes have a particular
-structure to their arguments (e.g., requiring a `--` before program arguments).
+things like `cargo run`.  This is useful when wanting to use a target such as `wasm32-wasi` without the
+trappings of [`wasm-pack`] for example, just running `cargo run` or `cargo test` in a package for the `wasm32-wasi`
+target.  Cargo expects a runner to take the program executable followed by its arguments, and most WASM runtimes
+have a particular structure to their arguments (e.g., requiring a `--` before program arguments).
 
 ## Usage
 
