@@ -39,9 +39,16 @@ $ cargo --target wasm32-wasi test
 $ cargo --target wasm32-wasi run -- some arguments
 ```
 
+## Sample Application
+
+The `test-wasm` folder has a simple crate that is configured to run the wrapper with `wasmer`.
+```
+$ (cd test-wasm && cargo run --verbose -- hello world)
+```
+
 ## TODO
 
-* Some integration tests/continuous integration with WASM targeted sample code.
+* CI testing for `wasmtime`.
 * Ability to customize runtime arguments via environment variables.
 * Ability to support other runtimes such as [`wavm`][wavm].
 

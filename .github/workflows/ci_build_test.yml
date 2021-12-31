@@ -1,0 +1,41 @@
+name: CI Build
+
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ${{ matrix.os }}
+    # We want to run on external PRs, but not on internal ones as push automatically builds
+    # H/T: https://github.com/Dart-Code/Dart-Code/commit/612732d5879730608baa9622bf7f5e5b7b51ae65
+    if: github.event_name == 'push' || github.event.pull_request.head.repo.full_name != 'partiql/partiql-lang-rust'
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+      - name: Git Checkout
+        uses: actions/checkout@v2
+        with:
+          submodules: recursive
+      - name: Rust Toolchain
+        uses: actions-rs/toolchain@v1
+        with:
+          profile: minimal
+          toolchain: stable
+          override: true
+      - name: Setup Wasmer
+        uses: wasmerio/setup-wasmer@v1
+      - name: Cargo Install Local
+        uses: actions-rs/cargo@v1
+        with:
+          command: install
+          args: --verbose --path .
+      - name: Run WASM Test Application
+        working-directory: ./test-wasm
+        run: cargo run --verbose -- hello world
+      - name: Rustfmt Check
+        uses: actions-rs/cargo@v1
+        with:
+          command: fmt
+          args: --verbose -- --check
