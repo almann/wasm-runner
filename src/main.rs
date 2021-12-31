@@ -1,6 +1,7 @@
 use anyhow::{Error, Result};
 use indoc::indoc;
 use std::env;
+use std::path::PathBuf;
 use std::process::Command;
 use which::which;
 
@@ -36,8 +37,39 @@ fn main() -> Result<()> {
             let runtime_path = if let Ok(path) = which(runtime) {
                 path
             } else {
-                // TODO be smarter about detecting runtimes.
-                todo!()
+                // get the "home" directory
+                let home = match (env::var("HOME"), env::var("USERPROFILE")) {
+                    (Ok(dir), _) => dir,
+                    (_, Ok(dir)) => dir,
+                    (_, _) => {
+                        return Err(Error::msg(
+                            "Could not find user home directory to autodetect WASM runtime",
+                        ))
+                    }
+                };
+                let mut path = PathBuf::from(home);
+
+                match runtime {
+                    "wasmer" => path.push(".wasmer"),
+                    "wasmtime" => path.push(".wasmtime"),
+                    _ => {
+                        return Err(Error::msg(format!(
+                            "Could not autodetect WASM runtime for '{}'",
+                            runtime
+                        )))
+                    }
+                }
+                path.push("bin");
+                path.push(runtime);
+
+                if let Ok(path) = which(path.as_path()) {
+                    path
+                } else {
+                    return Err(Error::msg(format!(
+                        "Could not find WASM runtime for '{:?}'",
+                        path.as_os_str()
+                    )));
+                }
             };
 
             // construct our wrapped command
