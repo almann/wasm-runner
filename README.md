@@ -3,11 +3,12 @@
 [![Crate](https://img.shields.io/crates/v/wasm-runner.svg)](https://crates.io/crates/wasm-runner)
 [![License](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/almann/wasm-runner/blob/main/LICENSE)
 
-This is a simple wrapper program to run a WASM runtime (currently one of [`wasmer`] or [`wasmtime`]) as a runner for
-things like `cargo run`.  This is useful when wanting to use a target such as `wasm32-wasi` without the
-trappings of [`wasm-pack`] for example, just running `cargo run` or `cargo test` in a package for the `wasm32-wasi`
-target.  Cargo expects a runner to take the program executable followed by its arguments, and most WASM runtimes
-have a particular structure to their arguments (e.g., requiring a `--` before program arguments).
+This is a simple wrapper program to run a WASM runtime (currently one of [`wasmer`][wasmer] or [`wasmtime`][wasmtime])
+as a runner for things like `cargo run`.  This is useful when wanting to use a target such as `wasm32-wasi` without the
+trappings of [`wasm-pack`][wasm-pack] for example, just running `cargo run` or `cargo test` in a package
+for the `wasm32-wasi` target.  Cargo expects a runner to take the program executable followed by its arguments,
+and most WASM runtimes  have a particular structure to their arguments
+(e.g., requiring a `--` before program arguments).
 
 ## Usage
 
@@ -42,7 +43,7 @@ $ cargo --target wasm32-wasi run -- some arguments
 
 * Some integration tests/continuous integration with WASM targeted sample code.
 * Ability to customize runtime arguments via environment variables.
-* Ability to support other runtimes such as [`wavm`].
+* Ability to support other runtimes such as [`wavm`][wavm].
 
 ## License
 
