@@ -1,5 +1,8 @@
 [build]
 target = "wasm32-wasi"
 
+[env]
+WASM_RUNNER_VERBOSE = "1"
+
 [target.'cfg(target_arch="wasm32")']
 runner = ["wasm-runner", "wasmer"]

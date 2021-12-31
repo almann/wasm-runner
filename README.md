@@ -40,6 +40,8 @@ $ cargo --target wasm32-wasi test
 $ cargo --target wasm32-wasi run -- some arguments
 ```
 
+The `WASM_RUNNER_VERBOSE` environment variable can be set to get diagnostic output as to what the runner is doing.
+
 ## Sample Application
 
 The `test-wasm` folder has a simple crate that is configured to run the wrapper with `wasmer`.

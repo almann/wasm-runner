@@ -17,8 +17,9 @@ fn help<S: AsRef<str>>(name: S) {
 
 fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
+    let verbose = env::var("WASM_RUNNER_VERBOSE").is_ok();
 
-    // note that we don't use something clap to keep the processing as pass through as possible
+    // note that we don't use something like clap to keep the processing as pass through as possible
     match args.len() {
         1 => {
             help(args[0].as_str());
@@ -35,6 +36,9 @@ fn main() -> Result<()> {
 
             // look for the runtime in our search path
             let runtime_path = if let Ok(path) = which(runtime) {
+                if verbose {
+                    eprintln!("WASM runtime found at {:?}", path);
+                }
                 path
             } else {
                 // get the "home" directory
@@ -54,7 +58,7 @@ fn main() -> Result<()> {
                     "wasmtime" => path.push(".wasmtime"),
                     _ => {
                         return Err(Error::msg(format!(
-                            "Could not autodetect WASM runtime for '{}'",
+                            "Could not auto-detect WASM runtime for {:?}",
                             runtime
                         )))
                     }
@@ -63,10 +67,13 @@ fn main() -> Result<()> {
                 path.push(runtime);
 
                 if let Ok(path) = which(path.as_path()) {
+                    if verbose {
+                        eprintln!("WASM runtime found at (auto-detect): {:?}", path);
+                    }
                     path
                 } else {
                     return Err(Error::msg(format!(
-                        "Could not find WASM runtime for '{:?}'",
+                        "Could not find WASM runtime for {:?}",
                         path.as_os_str()
                     )));
                 }
@@ -76,6 +83,10 @@ fn main() -> Result<()> {
             // TODO this is known to work with wasmtime and wasmer--probably should be smarter about it.
             let runtime_args: Vec<&str> =
                 ["run", program, "--"].into_iter().chain(app_args).collect();
+
+            if verbose {
+                eprintln!("WASM runtime arguments '{:?}'", runtime_args);
+            }
 
             Command::new(runtime_path)
                 .args(runtime_args)
