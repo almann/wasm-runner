@@ -1,6 +1,7 @@
 # Simple WASM Runner
 
 [![Crate](https://img.shields.io/crates/v/wasm-runner.svg)](https://crates.io/crates/wasm-runner)
+[![CI Build](https://github.com/almann/wasmer-runner/workflows/CI%20Build/badge.svg)](https://github.com/almann/wasmer-runner/actions?query=workflow%3A%22CI+Build%22)
 [![License](https://img.shields.io/hexpm/l/plug.svg)](https://github.com/almann/wasm-runner/blob/main/LICENSE)
 
 This is a simple wrapper program to run a WASM runtime (currently one of [`wasmer`][wasmer] or [`wasmtime`][wasmtime])
