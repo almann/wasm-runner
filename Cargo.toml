@@ -1,5 +1,5 @@
 [package]
-name = "wasm-runtime-wrapper"
+name = "wasm-runner"
 version = "0.1.0"
 authors = ["Almann Goo <almann.goo@gmail.com>"]
 edition = "2021"
