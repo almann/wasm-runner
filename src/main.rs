@@ -1,5 +1,6 @@
 use anyhow::{Error, Result};
 use indoc::indoc;
+use serde_json::Value;
 use std::env;
 use std::path::PathBuf;
 use std::process::Command;
@@ -21,6 +22,36 @@ fn main() -> Result<()> {
 
     if verbose {
         eprintln!("WASM runner arguments {:?}", args);
+    }
+
+    let runtime_add_args: Vec<String> = if let Ok(args_text) = env::var("WASM_RUNNER_RT_ARGS") {
+        let args_value = serde_json::from_str(args_text.as_str())?;
+        if let Value::Array(args_list) = args_value {
+            args_list
+                .into_iter()
+                .map(|v| {
+                    let res: Result<String> = if let Value::String(text) = v {
+                        Ok(text)
+                    } else {
+                        Err(Error::msg(format!(
+                            "WASM invalid runtime argument: {:?}",
+                            v
+                        )))
+                    };
+                    res
+                })
+                .collect::<Result<Vec<String>>>()?
+        } else {
+            return Err(Error::msg(format!(
+                "WASM runner invalid additional runtime arguments {:?}",
+                args_text
+            )));
+        }
+    } else {
+        vec![]
+    };
+    if !runtime_add_args.is_empty() && verbose {
+        eprintln!("WASM runner additional runtime args {:?}", runtime_add_args);
     }
 
     // note that we don't use something like clap to keep the processing as pass through as possible
@@ -85,8 +116,12 @@ fn main() -> Result<()> {
 
             // construct our wrapped command
             // TODO this is known to work with wasmtime and wasmer--probably should be smarter about it.
-            let runtime_args: Vec<&str> =
-                ["run", program, "--"].into_iter().chain(app_args).collect();
+            let runtime_args: Vec<&str> = ["run", program]
+                .into_iter()
+                .chain(runtime_add_args.iter().map(String::as_str))
+                .chain(["--"].into_iter())
+                .chain(app_args)
+                .collect();
 
             if verbose {
                 eprintln!("WASM runtime arguments {:?}", runtime_args);

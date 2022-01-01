@@ -40,7 +40,21 @@ $ cargo --target wasm32-wasi test
 $ cargo --target wasm32-wasi run -- some arguments
 ```
 
-The `WASM_RUNNER_VERBOSE` environment variable can be set to get diagnostic output as to what the runner is doing.
+There are some environment variables that can add additional configurability
+(e.g., the `[env]` Cargo configuration key):
+
+* The `WASM_RUNNER_VERBOSE` variable can be set (to any value such as `1`)to get diagnostic output as to what 
+  the runner is doing.
+* The `WASM_RUNNER_RT_ARGS` environment variable can take a JSON array of strings to pass runtime arguments.
+
+You can run everything without a configuration file if you so choose:  
+
+```
+$ WASM_RUNNER_RT_ARGS='["--enable-all", "--llvm"]' \
+    WASM_RUNNER_VERBOSE=1 \
+    CARGO_TARGET_WASM32_WASI_RUNNER="wasm-runner wasmer" \
+    cargo run --target=wasm32-wasi -- hello world
+```
 
 ## Sample Application
 
@@ -52,7 +66,6 @@ $ (cd test-wasm && cargo run --verbose -- hello world)
 ## TODO
 
 * CI testing for `wasmtime`.
-* Ability to customize runtime arguments via environment variables.
 * Ability to support other runtimes such as [`wavm`][wavm].
 
 ## License
