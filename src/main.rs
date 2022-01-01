@@ -19,6 +19,10 @@ fn main() -> Result<()> {
     let args: Vec<String> = env::args().collect();
     let verbose = env::var("WASM_RUNNER_VERBOSE").is_ok();
 
+    if verbose {
+        eprintln!("WASM runner arguments {:?}", args);
+    }
+
     // note that we don't use something like clap to keep the processing as pass through as possible
     match args.len() {
         1 => {
@@ -85,7 +89,7 @@ fn main() -> Result<()> {
                 ["run", program, "--"].into_iter().chain(app_args).collect();
 
             if verbose {
-                eprintln!("WASM runtime arguments '{:?}'", runtime_args);
+                eprintln!("WASM runtime arguments {:?}", runtime_args);
             }
 
             Command::new(runtime_path)
