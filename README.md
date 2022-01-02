@@ -11,6 +11,9 @@ for the `wasm32-wasi` target.  Cargo expects a runner to take the program execut
 and most WASM runtimes  have a particular structure to their arguments
 (e.g., requiring a `--` before program arguments).
 
+Something like [`cargo-wasi`][cargo-wasi] is a great, more integrated solution, but if you want or need control over how the
+WASM runtime is executed (e.g., passing runtime options down to the runner), this simple wrapper may meet your needs.
+
 ## Usage
 
 Install the runner using cargo:
@@ -72,6 +75,7 @@ $ (cd test-wasm && cargo run --verbose -- hello world)
 
 This project is licensed under the Apache-2.0 License.
 
+[cargo-wasi]: https://crates.io/crates/cargo-wasi
 [wasmer]: https://wasmer.io/
 [wasmtime]: https://wasmtime.dev/
 [wasm-pack]: https://github.com/rustwasm/wasm-pack
