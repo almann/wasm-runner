@@ -12,6 +12,8 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
+        # Test on something suitably old--in addition to the current toolchains
+        toolchain: ["1.38.0", stable, beta, nightly]
 
     steps:
       - name: Git Checkout
@@ -22,7 +24,7 @@ jobs:
         uses: actions-rs/toolchain@v1
         with:
           profile: minimal
-          toolchain: stable
+          toolchain: ${{ matrix.toolchain }}
           override: true
           target: wasm32-wasi
       - name: Setup Wasmer

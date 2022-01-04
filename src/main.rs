@@ -116,10 +116,10 @@ fn main() -> Result<()> {
 
             // construct our wrapped command
             // TODO this is known to work with wasmtime and wasmer--probably should be smarter about it.
-            let runtime_args: Vec<&str> = ["run", program]
+            let runtime_args: Vec<&str> = vec!["run", program]
                 .into_iter()
                 .chain(runtime_add_args.iter().map(String::as_str))
-                .chain(["--"].into_iter())
+                .chain(vec!["--"])
                 .chain(app_args)
                 .collect();
 
