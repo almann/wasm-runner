@@ -21,7 +21,6 @@ version = "0.3.1"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-indoc = "1.0.3"
 which = "4.2.2"
 anyhow = "1.0.52"
 serde_json = "1.0.73"

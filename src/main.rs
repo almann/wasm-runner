@@ -1,5 +1,4 @@
 use anyhow::{Error, Result};
-use indoc::indoc;
 use serde_json::Value;
 use std::env;
 use std::path::PathBuf;
@@ -8,10 +7,7 @@ use which::which;
 
 fn help<S: AsRef<str>>(name: S) {
     eprintln!(
-        indoc! {"
-        USAGE:
-            {} <RUNTIME-CMD> <WASM-PROGRAM> [<ARGUMENT>...]
-        "},
+        "USAGE:\n    {} <RUNTIME-CMD> <WASM-PROGRAM> [<ARGUMENT>...]",
         name.as_ref()
     );
 }
