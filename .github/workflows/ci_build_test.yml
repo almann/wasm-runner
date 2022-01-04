@@ -38,7 +38,7 @@ jobs:
         working-directory: ./test-wasm
         run: cargo run --verbose -- hello world
       - name: Rustfmt Check
-        if: ${{ matrix.toolchain == 'stable' && os == 'ubuntu-latest' }}
+        if: ${{ matrix.toolchain == 'stable' && matrix.os == 'ubuntu-latest' }}
         uses: actions-rs/cargo@v1
         with:
           command: fmt
